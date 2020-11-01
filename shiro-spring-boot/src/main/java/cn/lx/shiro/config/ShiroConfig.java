@@ -2,12 +2,15 @@ package cn.lx.shiro.config;
 
 import cn.lx.shiro.realm.MyRealm;
 import org.apache.shiro.mgt.SessionsSecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 /**
  * cn.lx.shiro.config
@@ -50,12 +53,49 @@ public class ShiroConfig {
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         //匿名访问
-        chainDefinition.addPathDefinition("/test/**", "anon");
+        chainDefinition.addPathDefinition("/test/login", "anon");
         //登出的url
         chainDefinition.addPathDefinition("/logout", "logout");
         //其他所有路径全部需要认证
         chainDefinition.addPathDefinition("/**", "authc");
         return chainDefinition;
+    }
+
+
+    /**
+     *  @DependsOn("lifecycleBeanPostProcessor") 控制bean初始化顺序
+     *  表示该bean依赖于lifecycleBeanPostProcessor这个bean
+     *  lifecycleBeanPostProcessor 这个spring-boot已经为我们自动注入了
+     *  就在ShiroBeanAutoConfiguration中
+     *
+     *  这个bean和下面那个都是参照shiro官网中的spring配置文件来创建的bean
+     *  {
+     *  <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after -->
+     *  <!-- the lifecycleBeanProcessor has run: -->
+     *  <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+     *      <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+     *      <property name="securityManager" ref="securityManager"/>
+     *  </bean>
+     *  }
+     *  官网上已经指明了如果想使用注解，就必须创建这两个bean
+     * @return
+     */
+    @Bean
+    @DependsOn("lifecycleBeanPostProcessor")
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator =
+                new DefaultAdvisorAutoProxyCreator();
+        //shiro官网未指明需要该项配置，但在springboot中，必须加入
+        // ，否则配置的匿名访问不生效
+        defaultAdvisorAutoProxyCreator.setUsePrefix(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(){
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor =
+                new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
+        return authorizationAttributeSourceAdvisor;
     }
 
 }
