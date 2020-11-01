@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lx.shiro.dao.PermissionDao">
+
+    <resultMap id="ResultMap" type="Permission">
+        <id property="id" column="id"/>
+        <result property="description" column="description"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="pid" column="pid"/>
+        <result property="code" column="code"/>
+        <result property="enVisible" column="en_visible"/>
+    </resultMap>
+
+
+
+
+</mapper>

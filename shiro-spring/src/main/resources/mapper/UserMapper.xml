@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lx.shiro.dao.UserDao">
+
+    <resultMap id="ResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="mobile" column="mobile"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="enableState" column="enable_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="timeOfEntry" column="time_of_entry"/>
+        <result property="formOfEmployment" column="form_of_employment"/>
+        <result property="workNumber" column="work_number"/>
+        <result property="formOfManagement" column="form_of_management"/>
+        <result property="workingCity" column="working_city"/>
+        <result property="correctionTime" column="correction_time"/>
+        <result property="inServiceStatus" column="in_service_status"/>
+        <result property="companyId" column="company_id"/>
+        <result property="companyName" column="company_name"/>
+        <result property="departmentName" column="department_name"/>
+        <result property="level" column="level"/>
+        <result property="staffPhoto" column="staff_photo"/>
+    </resultMap>
+
+    <select id="findUserByUsernameOrMobile" resultMap="ResultMap">
+    select * from bs_user where username = #{username} or mobile=#{mobile}
+    </select>
+
+
+
+</mapper>

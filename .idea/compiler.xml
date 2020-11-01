@@ -7,10 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="shiro-spring" />
         <module name="shiro-spring-boot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="shiro-spring" target="1.5" />
       <module name="shiro-spring-boot" target="1.8" />
     </bytecodeTargetLevel>
   </component>
