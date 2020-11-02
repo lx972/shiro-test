@@ -24,6 +24,11 @@
         <result property="departmentName" column="department_name"/>
         <result property="level" column="level"/>
         <result property="staffPhoto" column="staff_photo"/>
+        <collection property="roles"
+                    column="id"
+                    javaType="ArrayList"
+                    select="cn.lx.shiro.dao.RoleDao.findRolesByUserId">
+        </collection>
     </resultMap>
 
     <select id="findUserByUsernameOrMobile" resultMap="ResultMap">

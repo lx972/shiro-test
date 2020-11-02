@@ -9,7 +9,19 @@
         <result property="name" column="name"/>
         <result property="description" column="description"/>
         <result property="companyId" column="company_id"/>
+        <collection property="permissions"
+                    column="id"
+                    javaType="ArrayList"
+                    select="cn.lx.shiro.dao.PermissionDao.findPermissionsByRoleId">
+        </collection>
     </resultMap>
+
+
+    <select id="findRolesByUserId" resultMap="ResultMap">
+    select * from pe_role where id in (
+        select role_id from  pe_user_role where user_id =#{userId}
+    )
+    </select>
 
 
 

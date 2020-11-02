@@ -5,7 +5,9 @@
 <configuration>
     <settings>
         <setting name="logImpl" value="LOG4J2"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
     </settings>
+
     <typeAliases>
         <package name="cn.lx.shiro.domain"></package>
     </typeAliases>

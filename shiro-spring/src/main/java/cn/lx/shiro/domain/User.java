@@ -4,9 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户实体类
@@ -91,8 +89,7 @@ public class User implements Serializable {
 
     private String level;
 
-
     private String staffPhoto;
 
-    private Set<Role> roles = new HashSet<Role>();//用户与角色   多对多
+    private List<Role> roles = new ArrayList<Role>();//用户与角色   多对多
 }

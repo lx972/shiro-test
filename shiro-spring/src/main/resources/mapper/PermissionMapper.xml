@@ -15,6 +15,11 @@
     </resultMap>
 
 
+    <select id="findPermissionsByRoleId" resultMap="ResultMap">
+    select * from pe_permission where id in (
+        select permission_id from  pe_role_permission where role_id =#{roleId}
+    )
+    </select>
 
 
 </mapper>

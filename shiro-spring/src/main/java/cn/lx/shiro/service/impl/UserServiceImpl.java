@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,9 +51,9 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             throw new RuntimeException("不存在此用户");
         }
-        Set<Role> roleSet = user.getRoles();
+        List<Role> roleList = user.getRoles();
         Set<String> roleNames=new HashSet<String>();
-        for (Role role : roleSet) {
+        for (Role role : roleList) {
             roleNames.add(role.getName());
         }
         return roleNames;
@@ -69,11 +70,11 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             throw new RuntimeException("不存在此用户");
         }
-        Set<Role> roleSet = user.getRoles();
+        List<Role> roleList = user.getRoles();
         Set<String> permissions=new HashSet<String>();
-        for (Role role : roleSet) {
-            Set<Permission> permissionSet = role.getPermissions();
-            for (Permission permission : permissionSet) {
+        for (Role role : roleList) {
+            List<Permission> permissionList = role.getPermissions();
+            for (Permission permission : permissionList) {
                 permissions.add(permission.getCode());
             }
         }

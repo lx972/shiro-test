@@ -1,11 +1,10 @@
 package cn.lx.shiro.domain;
 
-
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class Role implements Serializable {
@@ -26,9 +25,6 @@ public class Role implements Serializable {
     private String companyId;
 
 
-    private Set<User> users = new HashSet<User>(0);//角色与用户   多对多
-
-
-   private Set<Permission> permissions = new HashSet<Permission>(0);//角色与模块  多对多
+   private List<Permission> permissions = new ArrayList<Permission>(0);//角色与模块  多对多
 
 }
