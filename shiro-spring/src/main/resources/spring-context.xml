@@ -61,7 +61,8 @@
                 <entry key="anAlias" value-ref="someFilter"/>
             </util:map>
         </property> -->
-        <property name="filterChainDefinitions">
+        <!--这个地方硬编码，不合理，应该从数据库加载-->
+        <!--<property name="filterChainDefinitions">
             <value>
                 # some example chain definitions:
                 /admin/** = authc, roles[admin]
@@ -71,8 +72,14 @@
                 /** = authc
                 # more URL-to-FilterChain definitions here
             </value>
-        </property>
+        </property>-->
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
     </bean>
+    <!--配置一个bean，这个bean实际上是一个map，通过实例工厂方法的方式获取这个map-->
+    <bean id="filterChainDefinitionMap"
+          factory-bean="filterChainDefinitionMapBuilder"
+          factory-method="buildFilterChainDefinitionMap"/>
+    <bean id="filterChainDefinitionMapBuilder" class="cn.lx.shiro.config.FilterChainDefinitionMapBuilder"/>
 
     <!-- Define any javax.servlet.Filter beans you want anywhere in this application context.   -->
     <!-- They will automatically be acquired by the 'shiroFilter' bean above and made available -->
