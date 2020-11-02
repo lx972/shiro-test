@@ -87,7 +87,28 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
         <property name="realm" ref="myRealm"/>
+        <!--缓存-->
+        <property name="cacheManager" ref="cacheManager"/>
+        <!--会话管理-->
+        <property name="sessionManager" ref="sessionManager"/>
+
     </bean>
+
+    <!--缓存
+    没有设置缓存方式，则每次都需要访问数据库
+    这里是保存在内存中
+    我们也可以将缓存保存在数据库中
+    继承EnterpriseCacheSessionDAO，重写缓存存储方式
+    -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+
+    <!--
+    会话管理，默认的会话类型是this.sessionManager = new DefaultSessionManager();
+    不符合web项目需求，我们可以使用自带的DefaultWebSessionManager（传统项目，一个服务器），
+    也可以继承DefaultWebSessionManager，重写会话方式，改为支持jwt的
+    -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"/>
+
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
