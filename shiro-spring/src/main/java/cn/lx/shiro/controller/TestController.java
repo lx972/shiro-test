@@ -59,4 +59,16 @@ public class TestController {
 
         return "登录成功";
     }
+
+
+    @PostMapping(value = "/logout")
+    public String logout() {
+
+        Subject currentUser = SecurityUtils.getSubject();
+
+        if (currentUser.isAuthenticated()) {
+            currentUser.logout();
+        }
+        return "退出成功";
+    }
 }
