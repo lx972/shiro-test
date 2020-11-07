@@ -1,6 +1,7 @@
 package cn.lx.shiro.realm;
 
 import cn.lx.shiro.service.IUserService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
@@ -21,10 +22,9 @@ import java.util.Set;
  * @date 11:07
  */
 @Slf4j
-@Component
+@Setter
 public class MyRealm extends AuthorizingRealm {
 
-    @Autowired
     private IUserService iUserService;
 
 

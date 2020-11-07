@@ -1,11 +1,14 @@
 package cn.lx.shiro.config;
 
 import cn.lx.shiro.realm.MyRealm;
+import cn.lx.shiro.service.IUserService;
 import org.apache.shiro.mgt.SessionsSecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +26,38 @@ import org.springframework.context.annotation.DependsOn;
 public class ShiroConfig {
 
 
+    @Autowired
+    private IUserService iUserService;
+
+
     /**
      * 注入自己的realm域
      */
+   /*@Autowired
+   private MyRealm myRealm;*/
+   @Bean
+   public MyRealm myRealm(){
+       MyRealm myRealm = new MyRealm();
+       myRealm.setIUserService(iUserService);
+       //设置缓存管理器
+       myRealm.setCacheManager(redisCacheManager);
+       //设置启用缓存
+       myRealm.setAuthenticationCachingEnabled(true);
+       myRealm.setAuthorizationCachingEnabled(true);
+       return myRealm;
+   }
+
+    /**
+     * shiro的redis缓存管理器
+     */
    @Autowired
-   private MyRealm myRealm;
+   private RedisCacheManager redisCacheManager;
+
+    /**
+     * shiro的session缓存管理器
+     */
+   @Autowired
+   private RedisCacheSessionDAO redisCacheSessionDAO;
 
     /**
      * 定义一个安全管理器
@@ -39,9 +69,23 @@ public class ShiroConfig {
    @Bean
    public SessionsSecurityManager securityManager(){
        DefaultWebSecurityManager defaultWebSecurityManager=new DefaultWebSecurityManager();
-       defaultWebSecurityManager.setRealm(myRealm);
+       defaultWebSecurityManager.setRealm(myRealm());
+       defaultWebSecurityManager.setCacheManager(redisCacheManager);
+       defaultWebSecurityManager.setSessionManager(sessionManager());
        return defaultWebSecurityManager;
    }
+
+
+    /**
+     * 配置一个session管理器
+     * @return
+     */
+    @Bean
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionDAO(redisCacheSessionDAO);
+        return sessionManager;
+    }
 
 
     /**
