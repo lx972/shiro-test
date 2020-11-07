@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿# 如何使用shiro做权限控制
 
 > shiro不适合与jwt整合，它的最佳实现应该是将session存入redis中
@@ -2042,3 +2043,7 @@ protected Authorizer authorizer() {
 ### 5.3 整合redis参考ssm
 
 
+=======
+# shiro-test
+shiro学习案例
+>>>>>>> origin/master
