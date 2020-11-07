@@ -48,6 +48,7 @@ public class RedisCache<K, V> implements Cache<K, V> , Destroyable {
         RedisTemplate<String, V> redisTemplate = ApplicationContextUtils.getBean(RedisTemplate.class);
         //redisTemplate.boundHashOps(name).expire(3, TimeUnit.SECONDS);
         //redisTemplate.boundHashOps(name).put(k, v);
+        log.info("RedisCache:put");
         redisTemplate.opsForValue().set(name+":"+k,v,10,TimeUnit.MINUTES);
         return null;
     }

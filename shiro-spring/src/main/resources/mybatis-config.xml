@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
-        <setting name="logImpl" value="LOG4J2"/>
+        <setting name="logImpl" value="slf4j"/>
         <setting name="lazyLoadingEnabled" value="true"/>
     </settings>
 
